@@ -1,6 +1,8 @@
 # web2os
 
-Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines! 
+![](https://img.shields.io/badge/web2os-v1.0.0-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-88.89%-green.svg)
+
+Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines! From the web to your operative system (web2os), easily!
 
 Note: this was possible thanks to Electron and Chromium, among others!
 
@@ -10,13 +12,27 @@ Note: this was possible thanks to Electron and Chromium, among others!
 
 ~$ `npm install -g web2os`
 
-
 ##### To use it locally:
 
 ~$ `npm install -s web2os`
 
-
 ## 2. Usage
+
+As this tool uses 
+
+### 2.1. Run scripts:
+
+If you installed the tool globally, you can:
+
+~$ `web2os myScript.js`
+
+If you installed it localy only, you have to:
+
+~$ `node_modules/.bin/web2os myScript.js`
+
+*Note: If you need to provide arguments to [Electron](https://github.com/electron/electron) (which, in the end, is the binary that is going to execute our scripts), just add your arguments normally to the command. You can also use the [Electron](https://github.com/electron/electron) CLI tool to run your scripts, there is no difference right now.*
+
+### 2.2. Some examples:
 
 As all the API of `web2os` module is chainable (all the methods can be called one after the other), these are some examples:
 
