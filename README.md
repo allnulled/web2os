@@ -176,6 +176,8 @@ require("web2os")
   .create()
   .open("http://www.github.com")
   .onWeb("console.log('This is synchronously executed')", true)
+  .onWeb("console.log('This is synchronously executed')", true)
+  .onWeb("console.log('This is synchronously executed')", true)
   .run();
 ```
 
