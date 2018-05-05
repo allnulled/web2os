@@ -35,6 +35,10 @@ If you installed [Electron](https://github.com/electron/electron) globally, you 
 
 ~$ `electron myScript.js`
 
+If you also installed `web2os` globally (and `electron` command has not been aliased with other name) you can also:
+
+~$ `web2os myScript.js`
+
 If you did not install [Electron](https://github.com/electron/electron) globally, you can:
 
 ~$ `node_modules/.bin/electron myScript.js`
