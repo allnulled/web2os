@@ -17,9 +17,6 @@
     "nyc": "11.7.1",
     "rimraf": "2.6.2"
   },
-  "bin": {
-    "web2os": "bin/web2os.cli.js"
-  },
   "dependencies": {
     "deep-extend": "0.5.1",
     "execute-command-sync": "1.0.2"

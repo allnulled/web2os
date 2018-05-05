@@ -1,6 +1,6 @@
 # web2os
 
-![](https://img.shields.io/badge/web2os-v1.0.6-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-88.89%25-green.svg)
+![](https://img.shields.io/badge/web2os-v1.0.7-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-88.89%25-green.svg)
 
 Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines! From the web to your operative system (web2os), easily!
 
@@ -20,7 +20,7 @@ Or locally:
 
 ~$ `npm install -s electron`
 
-##### Step 2: Install web2os
+##### Step 2: Install web2os locally:
 
 ~$ `npm install -s web2os`
 
@@ -35,11 +35,7 @@ If you installed [Electron](https://github.com/electron/electron) globally, you 
 
 ~$ `electron myScript.js`
 
-If you also installed `web2os` globally (and `electron` command has not been aliased with other name) you can also:
-
-~$ `web2os myScript.js`
-
-If you did not install [Electron](https://github.com/electron/electron) globally, you can:
+Otherwise, you can:
 
 ~$ `node_modules/.bin/electron myScript.js`
 
@@ -280,4 +276,4 @@ Consider the fact that you can...:
 
 But also, you can see how a Chromium browser does all of this in live, interact with it by hand in the moment, and it is very simple to use because you only have to use the technologies you already know, the JavaScript of the browser and Node.js! 
 
-Happy scraps!
+Happy scraping!
