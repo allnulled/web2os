@@ -9,19 +9,19 @@
     "docs": "javadoc2json -i 'src/**/*.js' -o 'docs/docs.json'"
   },
   "bin": {
-    "web2os": "bin/web2os.cli.js"
+    "web2os": "./bin/web2os.cli.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "assertivity": "1.0.3",
+    "electron": "2.0.0",
     "javadoc2json": "1.0.6",
     "nyc": "^11.7.1",
     "rimraf": "2.6.2"
   },
   "dependencies": {
     "deep-extend": "0.5.1",
-    "electron": "2.0.0",
     "execute-command-sync": "1.0.2"
   },
   "directories": {
