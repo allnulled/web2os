@@ -1,0 +1,27 @@
+{
+  "name": "web2os",
+  "version": "1.0.0",
+  "description": "Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines!",
+  "main": "src/web2os.js",
+  "scripts": {
+    "clean": "node_modules/.bin/rimraf test/*.txt",
+    "test": "node_modules/.bin/electron test/web2os.spec.js && npm run clean",
+    "docs": "node_modules/.bin/javadoc2json -i 'src/**/*.js' -o 'docs/docs.json'"
+  },
+  "bin": {
+    "web2os": "bin/web2os.cli.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "assertivity": "1.0.3",
+    "javadoc2json": "1.0.6",
+    "nyc": "^11.7.1",
+    "rimraf": "2.6.2"
+  },
+  "dependencies": {
+    "deep-extend": "0.5.1",
+    "electron": "2.0.0",
+    "execute-command-sync": "1.0.2"
+  }
+}
