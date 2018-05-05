@@ -8,13 +8,22 @@ Scrap the web asynchronously in live, reusing Node.js, all in one file, with a f
 
 ## 1. Installation
 
-##### To use the command-line anywhere:
+##### Step 1: Install Electron
 
-~$ `npm install -g web2os`
+As [Electron](https://github.com/electron/electron) is required for `web2os` to run (the scripts will be run with the `electron` command), you need to have it installed, either globally:
 
-##### To use it locally:
+~$ `sudo npm install -g electron`
+
+*(Tip: add `--unsafe-perm=true` if you have problems.)*
+
+Or locally:
+
+~$ `npm install -s electron`
+
+##### Step 2: Install web2os
 
 ~$ `npm install -s web2os`
+
 
 ## 2. Usage
 
