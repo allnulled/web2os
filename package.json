@@ -1,6 +1,6 @@
 {
   "name": "web2os",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines!",
   "main": "src/web2os.js",
   "scripts": {
