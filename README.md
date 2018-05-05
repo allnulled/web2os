@@ -28,11 +28,11 @@ require("web2os")
   .open("https://www.google.com")
   .onWeb((done, error) => {done(document.title);})
   .onOs((done, error, data) => {
-  	require("fs").writeFileSync("Google title.txt", data, "utf8");
-  	done();
+    require("fs").writeFileSync("Google title.txt", data, "utf8");
+    done();
   })
   .run(() => {
-  	console.log("DONE!");
+    console.log("DONE!");
   });
 ```
 
@@ -41,18 +41,18 @@ require("web2os")
 ```js
 require("web2os")
   .create({
-  	browser: {
-  		show: false
-  	}
+    browser: {
+      show: false
+    }
   })
   .open("https://www.github.com")
   .onWeb((done, error) => {done(document.title);})
   .onOs((done, error, data) => {
-  	require("fs").writeFileSync("Google title.txt", data, "utf8");
-  	done();
+    require("fs").writeFileSync("Google title.txt", data, "utf8");
+    done();
   })
   .run(() => {
-  	console.log("DONE!");
+    console.log("DONE!");
   });
 ```
 
@@ -72,15 +72,15 @@ If you want, you can run the tests typing:
 
 ```js
 {
-	abortOnRejectedPromise: true,
-	openDevTools: false,
-	browser: { // (1)
-	  width: 800,
-	  height: 600,
-	  webPreferences: {
-	    nodeIntegration: false
-	  }
-	}
+  abortOnRejectedPromise: true,
+  openDevTools: false,
+  browser: { // (1)
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: false
+    }
+  }
 }
 ```
 
@@ -136,9 +136,9 @@ require("web2os")
   .create()
   .open("http://www.github.com")
   .onWeb(function(done, error) {
-  	setTimeout(function() {
-  		done(document.title);
-  	}, 3000);
+    setTimeout(function() {
+      done(document.title);
+    }, 3000);
   })
   .run();
 ```
@@ -164,13 +164,13 @@ require("web2os")
   .create()
   .open("http://www.github.com")
   .onWeb(function(done, error) {
-  	setTimeout(function() {
-  		done(document.title);
-  	}, 3000);
+    setTimeout(function() {
+      done(document.title);
+    }, 3000);
   })
   .onOs(function(done, error, title) {
-  	require("fs").writeFileSync("Github title.txt", title, "utf8");
-  	done();
+    require("fs").writeFileSync("Github title.txt", title, "utf8");
+    done();
   })
   .run();
 ```
@@ -195,16 +195,16 @@ require("web2os")
   .create()
   .open("http://www.github.com")
   .onWeb(function(done, error) {
-  	setTimeout(function() {
-  		done(document.title);
-  	}, 3000);
+    setTimeout(function() {
+      done(document.title);
+    }, 3000);
   })
   .onOs(function(done, error, title) {
-  	require("fs").writeFileSync("Github title.txt", title, "utf8");
-  	done();
+    require("fs").writeFileSync("Github title.txt", title, "utf8");
+    done();
   })
   .run(function() {
-  	console.log("I am done with provided tasks!");
+    console.log("I am done with provided tasks!");
   });
 ```
 
