@@ -4,7 +4,7 @@
 
 Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines! From the web to your operative system (web2os), easily!
 
-Note: this was possible thanks to Electron and Chromium, among others!
+*Note: this was possible thanks to Electron and Chromium, among others!*
 
 ## 1. Installation
 
