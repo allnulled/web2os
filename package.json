@@ -8,9 +8,6 @@
     "test": "electron test/web2os.spec.js && npm run clean",
     "docs": "javadoc2json -i 'src/**/*.js' -o 'docs/docs.json'"
   },
-  "bin": {
-    "web2os": "./bin/web2os.cli.js"
-  },
   "author": "",
   "license": "ISC",
   "devDependencies": {

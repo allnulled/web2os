@@ -22,13 +22,13 @@ As this tool uses
 
 ### 2.1. Run scripts:
 
-If you installed the tool globally, you can:
+If you installed [Electron](https://github.com/electron/electron) globally, you can:
 
-~$ `web2os myScript.js`
+~$ `electron myScript.js`
 
-If you installed it localy only, you have to:
+If you did not install [Electron](https://github.com/electron/electron) globally, you can:
 
-~$ `node_modules/.bin/web2os myScript.js`
+~$ `node_modules/.bin/electron myScript.js`
 
 *Note: If you need to provide arguments to [Electron](https://github.com/electron/electron) (which, in the end, is the binary that is going to execute our scripts), just add your arguments normally to the command. You can also use the [Electron](https://github.com/electron/electron) CLI tool to run your scripts, there is no difference right now.*
 
