@@ -271,4 +271,4 @@ But also, you can see how a Chromium browser does all of this in live, interact 
 
 Happy scraps!
 
-And remember that Open Source must win, always!# Read this file
+And remember that Open Source must win, always!
