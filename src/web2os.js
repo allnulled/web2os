@@ -82,6 +82,8 @@ function create(optionsParam = {}) {
    * to the Web Environment of the current {web2os} instance. Must be resolved or rejected.
    * The parameter can also be a string, which should contain the code of an asynchronous 
    * function.
+   * @param {Boolean} isSync. Default: false. Set to true to pass simple code, and it will not
+   * be wrapped in a {Promise}. By default, the fnParam is wrapped in a Promise.
    * @returns {Object} chainables
    * @description Adds a task that executes an asynchronous function in the Web Environment.
    * In this environment, you are working with the JavaScript of the browser, and so, you can
@@ -91,7 +93,7 @@ function create(optionsParam = {}) {
    * This way, you can pass data from the Web Environemnt to the OS Environment, and manage it
    * locally.
    */
-  chainables.onWeb = function(fnParam) {
+  chainables.onWeb = function(fnParam, isSync=false) {
     var fn = undefined;
     if (typeof fnParam === "string") {
       fn = fnParam;
@@ -100,6 +102,7 @@ function create(optionsParam = {}) {
     }
     chainables.internals.tasks.push({
       op: "onWeb",
+      isSync,
       fn
     });
     return chainables;
@@ -180,7 +183,11 @@ function create(optionsParam = {}) {
             return nextTask();
             // When we are on the web environment
           case "onWeb":
-            return win.webContents.executeJavaScript("new Promise(" + curTask.fn + ")").then(nextTask).catch(abortTask);
+          	if(!curTask.isSync) {
+            	return win.webContents.executeJavaScript("new Promise(" + curTask.fn + ")").then(nextTask).catch(abortTask);
+            } else {
+              return win.webContents.executeJavaScript(curTask.fn).then(nextTask).catch(abortTask);
+          	}
             // When we are on the os environment:
           case "onOs":
             return new Promise(function(done, error) {

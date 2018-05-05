@@ -27,6 +27,7 @@ var fs = require("fs");
 var googleFile = __dirname + "/data.google.txt";
 var githubFile = __dirname + "/data.github.txt";
 var stackOFile = __dirname + "/data.stackoverflow.txt";
+var jQueryFileContents = fs.readFileSync(__dirname + "/inc/jquery-1.12.4.js").toString();
 
 var idTimeout = setTimeout(function() {
 	report.as("Timeout reached (30 seconds). Something seems not to work okay.").that.it(true).is.false();
@@ -36,7 +37,8 @@ web2os
 .create()
 
 .open("https://www.google.com")
-.onWeb((done, error) => {setTimeout(() => {done(document.title);}, 2000);})
+.onWeb(jQueryFileContents, true)
+.onWeb((done, error) => {$("body").html("");setTimeout(() => {done(document.title);}, 2000);})
 .onOs((done, error, data) => {fs.writeFileSync(googleFile, data, "utf8");done();})
 
 .open("https://www.github.com")

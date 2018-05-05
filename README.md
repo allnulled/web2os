@@ -149,11 +149,13 @@ require("web2os")
 
 **Parameter:** `{String|Function} callback`. *Required*. Code (as string or function) to be executed in the browser environment. The code passed here will only have access to the browser environment, and Node.js will not be available. The callback must be a function that will be passed to a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Be sure that you call either `resolve` or `reject` (or the names that you choose) in some moment of the execution. Moreover, when you pass some data to the `resolve` function, this data will be passed to the next `onOs` callback, when executed. This is the key to pass data from the browser to the Node.js environment comfortably, but also in a secure and safe way.
 
+**Parameter:** `{Boolean} isSync`. *Optional*. Set to `true` if you want to include synchronous JavaScript. By default, it is set to `false`, which means that a function that will be wrapped in a `{Promise}` is expected as the first `callback` parameter. You will need this flag if you want to include external JavaScript files.
+
 **Returns:** `{web2os}`. Object that holds the chainable methods for the current `{web2os}` instance.
 
 **Description:** Adds a task that will execute the passed function (inside a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)) in the browser environment when executed. Also, it can pass some browser environment's data to the next callback, through the `resolve` callback of the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
-**Example:** 
+**Asynchronous and functional example:** 
 
 ```js
 require("web2os")
@@ -164,6 +166,16 @@ require("web2os")
       done(document.title);
     }, 3000);
   })
+  .run();
+```
+
+**Synchronous and textual example:** 
+
+```js
+require("web2os")
+  .create()
+  .open("http://www.github.com")
+  .onWeb("console.log('This is synchronously executed')", true)
   .run();
 ```
 
