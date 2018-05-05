@@ -38,7 +38,7 @@ web2os
 
 .open("https://www.google.com")
 .onWeb(jQueryFileContents, true)
-.onWeb((done, error) => {$("body").html("");setTimeout(() => {done(document.title);}, 2000);})
+.onWeb((done, error) => {$("body").html("Oooops!! This naughty web2os.... bad, bad, bad.");setTimeout(() => {done(document.title);}, 2000);})
 .onOs((done, error, data) => {fs.writeFileSync(googleFile, data, "utf8");done();})
 
 .open("https://www.github.com")
