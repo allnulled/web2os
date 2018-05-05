@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 var exec = require("execute-command-sync");
 var path = require("path");
 var args = process.argv;
