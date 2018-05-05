@@ -1,6 +1,6 @@
 # web2os
 
-![](https://img.shields.io/badge/web2os-v1.0.2-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-88.89%25-green.svg)
+![](https://img.shields.io/badge/web2os-v1.0.3-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-88.89%25-green.svg)
 
 Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines! From the web to your operative system (web2os), easily!
 
