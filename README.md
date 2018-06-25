@@ -1,283 +1,332 @@
+ 
+
 # web2os
 
-![](https://img.shields.io/badge/web2os-v1.0.7-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-88.89%25-green.svg)
+![](https://img.shields.io/badge/web2os-v1.1.0-green.svg) ![](https://img.shields.io/badge/tests-passing-green.svg) ![](https://img.shields.io/badge/coverage-85%25-green.svg)
 
 Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines! From the web to your operative system (web2os), easily!
 
-*Note: this was possible thanks to Electron and Chromium, among others!*
+*Based on [Electron](https://github.com/electron/electron).*
 
 ## 1. Installation
-
-##### Requirements:
-
-- [Electron](https://github.com/electron/electron) installed (globally or locally).
-
-##### Step 1: Install Electron
-
-Globally:
-
-~$ `sudo npm install -g electron`
-
-*(Tip: add `--unsafe-perm=true` if you have problems.)*
-
-Or locally:
-
-~$ `npm install -s electron`
-
-##### Step 2: Install web2os locally:
 
 ~$ `npm install -s web2os`
 
 ## 2. Usage
 
-### 2.1. Run scripts:
+#### 2.1. How to run `web2os` scripts
 
 If you installed [Electron](https://github.com/electron/electron) globally, you can:
 
 ~$ `electron myScript.js`
 
-Otherwise, you can:
+*Note: if you have problems installing **Electron** globally, use the flag `--unsafe-perm=true`.*
 
-~$ `node_modules/.bin/electron myScript.js`
+If you did not install [Electron](https://github.com/electron/electron) globally, you can, instead:
 
-### 2.2. Some examples:
+~$ `./node_modules/.bin/electron myScript.js`
+
+## 3. Examples
 
 As all the API of `web2os` module is chainable (all the methods can be called one after the other), these are some examples:
 
-##### Example 1: scrap Google's main page title and put it into a file:
+#### Example 1: scrap Google's main page title and put it into a file:
 
 ```js
 require("web2os")
-  .create()
-  .open("https://www.google.com")
-  .onWeb((done, error) => {done(document.title);})
-  .onOs((done, error, data) => {
-    require("fs").writeFileSync("Google title.txt", data, "utf8");
-    done();
-  })
-  .run(() => {
-    console.log("DONE!");
-  });
+ .create()
+ .open("https://www.google.com")
+ .onWeb((done, error) => {done(document.title);})
+ .onOs((done, error, data) => {
+   require("fs").writeFileSync("Google title.txt", data, "utf8");
+   done();
+ })
+ .run(() => {
+   console.log("DONE!");
+ });
 ```
 
 ##### Example 2: scrap Github's main page title (this time headlessly, so without seeing the browser) and put it into a file:
 
 ```js
 require("web2os")
-  .create({
-    browser: {
-      show: false
-    }
-  })
-  .open("https://www.github.com")
-  .onWeb((done, error) => {done(document.title);})
-  .onOs((done, error, data) => {
-    require("fs").writeFileSync("Google title.txt", data, "utf8");
-    done();
-  })
-  .run(() => {
-    console.log("DONE!");
-  });
+ .create({
+   browser: {show: false}
+ })
+ .open("https://www.github.com")
+ .onWeb((done, error) => {done(document.title);})
+ .onOs((done, error, data) => {
+   require("fs").writeFileSync("Google title.txt", data, "utf8");
+   done();
+ })
+ .run(() => {
+   console.log("DONE!");
+ });
 ```
-
-If you want, you can run the tests typing:
-
-~$ `npm run test`
-
-
-## 3. API
-
-
-**Method:** `{web2os}.create(Object:config)`
-
-**Type:** `{Function}`
-
-**Parameter:** `{Object} config`. The settings passed to the `{web2os}` instance. This object, if passed, will override any present values from the default settings, which are:
+##### Example 3: scrap multiple URLs the same way:
 
 ```js
-{
-  abortOnRejectedPromise: true,
-  openDevTools: false,
-  browser: { // (1)
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: false
-    }
-  }
-}
+const web2osInstance = require("web2os").create({});
+const links = [
+ "https://www.google.com", 
+ "https://www.github.com", 
+ "https://stackoverflow.com/"
+];
+const file = __dirname + "/titles.txt";
+const fs = require("fs");
+const data = {titles: []};
+links.forEach((link) => {
+ web2osInstance
+   .open(link)
+   .onWeb((done, error) => {
+     done(document.title);
+   }).onOs((done, error, title) => {
+     fs.appendFileSync(file, title+"\n", "utf8");
+     done();
+   });
+});
+web2osInstance.run(() => {
+ fs.readFileSync(file).toString()
+});
 ```
 
-*(1): parameters for the [{BrowserWindow}](https://github.com/electron/electron/blob/master/docs/api/browser-window.md#class-browserwindow) instance of the [Electron](https://github.com/electron/electron) framework.*
+## 4. API Reference
 
-**Returns:** `{web2os}`. Optional. Object that holds the chainable methods for the current `{web2os}` instance.
 
-**Description:** Creates a new `{web2os}` instance.
 
-**Example:** 
 
-```js
-require("web2os").create();
-```
+ 
+
 
 ----
 
-**Method:** `{web2os}.open(String:url)`
+### `require("web2os").create(optionsParam)`
 
 **Type:** `{Function}`
 
-**Parameter:** `{String} url`. *Required*. URL to be visited.
+**Param:** `{Object} optionsParam`. Object with the options we want to provide for the current web2os instance.
 
-**Returns:** `{web2os}`. Object that holds the chainable methods for the current `{web2os}` instance.
+Accepted parameters are:
 
-**Description:** Adds a task that will open the passed URL when executed.
+ - **abortOnRejectedPromise**: `{Boolean}`. Defaults to `true`. This means that `{web2os}` will stop the execution when a promise (from `onWeb` or `onOs` callbacks) is rejected.
 
-**Example:** 
+ - **browser**: `{Object}`. Parameters for the {BrowserWindow} Electron object. For more info, go to: https://github.com/electron/electron/blob/master/docs/api/browser-window.md#class-browserwindow
 
-```js
-require("web2os")
-  .create()
-  .open("http://www.github.com")
-  .run();
-```
+ - **openDevTools**: `{Boolean}`. Specifies if the openDevTools should be opened or not. Default: false.
+
+
+**Returns:** `{Object} chainable`. Object that has all the methods available for `{web2os}` scraps.
+
+**Description:** Creates an instance of `{web2os}`, and returns its chainable methods as an `{Object}` that we will call the `chainable`.
+
+
+
+ 
+
 
 ----
 
-**Method:** `{web2os}.onWeb(String|Function:callback)`
+### `web2os`
 
-**Type:** `{Function}`
+**Type:** `{Object}` Object returned by `require("web2os").create(...);`. It represents a `{web2os}` instance.
 
-**Parameter:** `{String|Function} callback`. *Required*. Code (as string or function) to be executed in the browser environment. The code passed here will only have access to the browser environment, and Node.js will not be available. The callback must be a function that will be passed to a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Be sure that you call either `resolve` or `reject` (or the names that you choose) in some moment of the execution. Moreover, when you pass some data to the `resolve` function, this data will be passed to the next `onOs` callback, when executed. This is the key to pass data from the browser to the Node.js environment comfortably, but also in a secure and safe way.
+**Description:** Object that is going to be returned by the methods it has, in order
+to make them chainable. It also holds the `internals` property, which has some 
+useful data for the `{web2os}` instance.
 
-**Parameter:** `{Boolean} isSync`. *Optional*. Set to `true` if you want to include synchronous JavaScript. By default, it is set to `false`, which means that a function that will be wrapped in a `{Promise}` is expected as the first `callback` parameter. You will need this flag if you want to include external JavaScript files.
 
-**Returns:** `{web2os}`. Object that holds the chainable methods for the current `{web2os}` instance.
 
-**Description:** Adds a task that will execute the passed function (inside a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)) in the browser environment when executed. Also, it can pass some browser environment's data to the next callback, through the `resolve` callback of the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+ 
 
-**Asynchronous and functional example:** 
-
-```js
-require("web2os")
-  .create()
-  .open("http://www.github.com")
-  .onWeb(function(done, error) {
-    setTimeout(function() {
-      done(document.title);
-    }, 3000);
-  })
-  .run();
-```
-
-**Synchronous and textual example:** 
-
-```js
-require("web2os")
-  .create()
-  .open("http://www.github.com")
-  .onWeb("console.log('This is synchronously executed')", true)
-  .onWeb("console.log('This is synchronously executed')", true)
-  .onWeb("console.log('This is synchronously executed')", true)
-  .run();
-```
 
 ----
 
-**Method:** `{web2os}.onOs(Function:callback)`
-
-**Type:** `{Function}`
-
-**Parameter:** `{Function} callback`. *Required*. Code (as a function) to be executed in the Node.js environment. The code passed here will only have access to the Node.js environment of the current script, and the browser environment will not be available. The callback must be a function that will be passed to a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Be sure that you call either `resolve` or `reject` (or the names that you choose) in some moment of the execution. Also, if there was a previous `onWeb` callback that passed some data from its [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), that data will be passed to the `onOs` callback as a third parameter: `(resolve, reject, data) => {/*OS code*/}`. This way, you can retrieve data from the web to your operative system, and handle it with Node.js APIs and NPM modules.
-
-**Scope:** `{web2os}`. You can access to the `{web2os}` object from inside this callback, using the keyword `this`.
-
-**Returns:** `{web2os}`. Object that holds the chainable methods for the current `{web2os}` instance.
-
-**Description:** Adds a task that will execute the passed function (inside a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)) in the operative system environment when executed. Also, it can receive data from the previous `onWeb` callback, if any, as a third parameter of this `onOs` callback.
-
-**Example:** 
-
-```js
-require("web2os")
-  .create()
-  .open("http://www.github.com")
-  .onWeb(function(done, error) {
-    setTimeout(function() {
-      done(document.title);
-    }, 3000);
-  })
-  .onOs(function(done, error, title) {
-    require("fs").writeFileSync("Github title.txt", title, "utf8");
-    done();
-  })
-  .run();
-```
-
-----
-
-**Method:** `{web2os}.run(Function:callback)`
-
-**Type:** `{Function}`
-
-**Parameter:** `{Function} callback`. Optional. Code that can be executed once the accumulated tasks have been executed.
-
-**Returns:** `{web2os}`. Object that holds the chainable methods for the current `{web2os}` instance.
-
-
-**Description:** Runs the accumulated tasks, one after the other, asynchronously. Once finished, it executed
-
-**Example:** 
-
-```js
-require("web2os")
-  .create()
-  .open("http://www.github.com")
-  .onWeb(function(done, error) {
-    setTimeout(function() {
-      done(document.title);
-    }, 3000);
-  })
-  .onOs(function(done, error, title) {
-    require("fs").writeFileSync("Github title.txt", title, "utf8");
-    done();
-  })
-  .run(function() {
-    console.log("I am done with provided tasks!");
-  });
-```
-
-----
-
-**Property:** `{web2os}.internals`
+### `web2os#internals`
 
 **Type:** `{Object}`
 
-**Description:** This object holds important information for the execution. Basically: 
+**Description:** Contains some useful data for the `{web2os}` instance.
 
-  - `options {Object}`: current configurations, overriden by the object passed to the `create` method.
 
-  - `tasks {Array}`: array of objects that represents the tasks that the `{web2os}` instance has pending. When a task is started, it is removed from this array. Each task is a simple `{Object}` with 2 properties: 
 
-  1.- `*.op {String}`: operation of the task. It is the name of the method of our chainable methods (`"open"`, `"onWen"`, `"onOs"`).
+ 
 
-  2.- `*.fn {Function} | *.url {String}`: the parameter passed to the operation.
 
 ----
 
-You can also generate the documentation typing:
+### `web2os#internals.tasks`
+
+**Type:** `{Array}`
+
+**Description:** Holds all the tasks (asynchronous functions) that have been requested 
+to this `{web2os}` instance. The tasks that are dispatched (or being dispatched) will
+not appear in this array.
+
+
+
+ 
+
+
+----
+
+### `web2os#internals.options`
+
+**Type:** `{Object}`
+
+**Description:** Contains all the parameters of the current `{web2os}` instance.
+This object is deeply extended by the parameter passed to the 
+`{web2os}.create(~)` method.
+
+By default, its value is:
+
+```js
+{
+ openDevTools: false,
+ browser: {
+   // show: false,
+   width: 800,
+   height: 600,
+   webPreferences: {
+     nodeIntegration: false
+   }
+ },
+ abortOnRejectedPromise: true
+}
+```
+Also, you can pass a `onError` function, to handle the errors by default.
+
+
+
+
+
+ 
+
+
+----
+
+### `web2os#open`
+
+**Type:** `{Function}`
+
+**Parameter:** `{String}` `url`. URL to be opened by the current `{web2os}` instance.
+
+**Returns:** `{Object}` chainables.
+
+**Description:** Adds a task that opens the provided URL (it can be a `"file://"` URI too)
+
+
+
+ 
+
+
+----
+
+### `web2os#onWeb`
+
+**Type:** `{Function}`
+
+**Param:** {Function:async || String} fnParam. Asynchronous function (this means that it will
+receive as parameters: {1:Function:resolve}, {2:Function:reject}) that will be applied
+to the Web Environment of the current `{web2os}` instance. Must be resolved or rejected.
+The parameter can also be a string, which should contain the code of an asynchronous 
+function.
+
+**Param:** {Boolean} isSync. Default: false. Set to true to pass simple code, and it will not
+be wrapped in a {Promise}. By default, the fnParam is wrapped in a Promise.
+
+**Returns:** `{Object}` chainables
+
+**Description:** Adds a task that executes an asynchronous function in the Web Environment.
+In this environment, you are working with the JavaScript of the browser, and so, you can
+manipulate the DOM, do AJAX calls, or whatever. This function can return, through the 
+`resolve` ({1:Function:resolve}) parameter some data, and if the next chained call is an
+`onOs(func)`, the callback it handles will receive this data, appended as a new parameter.
+This way, you can pass data from the Web Environemnt to the OS Environment, and manage it
+locally.
+
+
+
+ 
+
+
+----
+
+### `web2os#onOs(fn:Function:async)`
+
+**Type:** `{Function}`
+
+**Param:** {Function:async} fn. Asynchronous function (this means that it will
+receive as parameters: 
+- **param 1:** `{Function:resolve}`
+- **param 2:** `{2:Function:reject}`
+both of which work as a typical JavaScript `Promise`) that will be applied 
+to the OS Environment.
+Moreover, if the previous chained call was an `onWeb` call, and
+it was resolved with some data as parameter, a 3rd parameter will be passed to this
+asynchronous function that is going to be executed in our OS Environment. 
+That parameter
+will contain the data returned by the previous `onWeb` asynchronous call. Otherwise, 
+only the `resolve` and `reject` functions will be passed as parameters.
+
+**Returns:** `{Object}` `chainables`.
+
+**Description:** Adds a task that executes an asynchronous function in the OS Environment.
+In this environment, you are working with the JavaScript of Node.js, and so, you can
+access to any npm or node modules available in your current context (to read and write files, 
+start processes, manage databases, etc.).
+
+
+
+ 
+
+
+----
+
+### `web2os#run(doneRun:Function)`
+
+**Type:** `{Function}`
+
+**Param:** `{Function}` `doneRun` (Optional). Function that will be executed once the `run`
+function ended.
+
+**Returns:** `{Object}` `chainables`
+
+**Description:** This function starts running all the tasks acumulated until it is called.
+
+
+
+ 
+
+
+
+
+## 5. Tests, coverage and documentation generation
+
+#### 5.1. Tests and coverage
+
+You can make the tests pass and generate automatically the coverage by typing:
+
+~$ `npm run test`
+
+You can clean the generated coverage reports by typing:
+
+~$ `npm run clean`
+
+#### 5.2. Documentation
+
+You can regenerate the documentation typing:
 
 ~$ `npm run docs`
 
-It will create a `docs/docs.json` file with the documentation extracted from the JavaDoc comments of the source code.
+The generated docs will be dumped directly from `src/web2os.js` to `README.md` file, in Markdown format, and from javadoc comments.
 
+## 6. Conclusion
 
-## 4. Conclusion
+This has turned into a promising clean API to do web-scraping comfortably, and in a fast, reliable way, because you can attack to applications that are loaded by client-side frameworks like Angular or React, which require a DOM processing by the browser previously to proceed to the scrap.
 
-This has turned into a promising clean API to do web-scraping comfortably. 
+Consider the fact that you can:
 
-Consider the fact that you can...:
-
-1. Use database NPM modules to insert the data that you collect from the web directly to your database, you can even use ORMs to do it effortlessly
+1. Use database NPM modules to insert the data that you collect from the web directly to your database, you can even use ORMs to do it effortlessly.
 
 2. See the current progression of the scraps.
 
@@ -292,3 +341,12 @@ Consider the fact that you can...:
 But also, you can see how a Chromium browser does all of this in live, interact with it by hand in the moment, and it is very simple to use because you only have to use the technologies you already know, the JavaScript of the browser and Node.js! 
 
 Happy scraping!
+
+*Take into account that I am the developer of the NaturalScript programming language, and I have been working on Open Source projects since I know that Microsoft is not available to give 5.000 dollars to programming languages that come nearer to natural language, and they do not even want to give explanations about their reasons... Well, Microsoft, Google, Intel and Oracle, neither of them are capable to answer a request by a simple novice developer who is giving big part of its time to the Open Source community.*
+
+
+
+
+
+
+
