@@ -57,7 +57,7 @@ function create(optionsParam = {}) {
         nodeIntegration: false
       }
     }
-  }, optionsParam.browserOptions || {});
+  }, optionsParam.browser || {});
 
   /**
    * @name chainables.open
@@ -154,7 +154,11 @@ function create(optionsParam = {}) {
       chainables.internals.BrowserWindow = BrowserWindow;
       chainables.internals.win = win;
       // Define abort-task:
-      function abortTask() {
+      function abortTask(error) {
+        console.log("[web2os] Error arised:", error);
+        if(typeof chainables.internals.options.onError === "function") {
+          chainables.internals.options.onError(error);
+        }
         if (chainables.internals.options.abortOnRejectedPromise) {
           chainables.internals.tasks = [];
         } else {
