@@ -1,0 +1,56 @@
+{
+  "name": "web2os",
+  "version": "1.0.8",
+  "description": "Scrap the web asynchronously in live, reusing Node.js, all in one file, with a few lines!",
+  "main": "src/web2os.js",
+  "scripts": {
+    "clean": "rimraf test/*.txt",
+    "test": "electron test/web2os.spec.js && npm run clean",
+    "docs": "javadoc2json -i 'src/**/*.js' -o 'docs/docs.json'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "assertivity": "1.0.3",
+    "electron": "2.0.0",
+    "execute-command-sync": "^1.0.2",
+    "javadoc2json": "1.0.6",
+    "nyc": "11.7.1",
+    "rimraf": "2.6.2"
+  },
+  "dependencies": {
+    "deep-extend": "0.5.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allnulled/web2os.git"
+  },
+  "keywords": [
+    "scrap",
+    "scraping",
+    "web",
+    "web-scraping",
+    "webscraping",
+    "electron",
+    "async",
+    "asynchronous",
+    "live",
+    "browser",
+    "automation",
+    "web2os",
+    "harvest",
+    "crawl",
+    "crawler",
+    "scraper",
+    "chromium",
+    "chrome",
+    "spider"
+  ],
+  "bugs": {
+    "url": "https://github.com/allnulled/web2os/issues"
+  },
+  "homepage": "https://github.com/allnulled/web2os#readme"
+}
