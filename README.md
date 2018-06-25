@@ -291,4 +291,4 @@ Consider the fact that you can...:
 
 But also, you can see how a Chromium browser does all of this in live, interact with it by hand in the moment, and it is very simple to use because you only have to use the technologies you already know, the JavaScript of the browser and Node.js! 
 
-Happy scraping!# Read this file
+Happy scraping!
